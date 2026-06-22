@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pintone | Téléchargement</title>
+    <meta
+      name="description"
+      content="Télécharge Pintone sur iPhone ou Android depuis une page unique."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <script defer src="./legal-nav.js"></script>
+    <script>
+      window.PINTONE_DOWNLOAD_CONFIG = {
+        androidUrl: 'https://play.google.com/store/apps/details?id=com.jules.piconmap',
+        iosUrl: '',
+      };
+    </script>
+    <script defer>
+      (function () {
+        const config = window.PINTONE_DOWNLOAD_CONFIG || {};
+        const userAgent = navigator.userAgent || '';
+        const isAndroid = /Android/i.test(userAgent);
+        const isIOS = /iPhone|iPad|iPod/i.test(userAgent);
+
+        const androidLink = document.getElementById('android-link');
+        const iosLink = document.getElementById('ios-link');
+        const status = document.getElementById('download-status');
+
+        if (androidLink && config.androidUrl) {
+          androidLink.href = config.androidUrl;
+        }
+
+        if (iosLink && config.iosUrl) {
+          iosLink.href = config.iosUrl;
+          iosLink.removeAttribute('aria-disabled');
+        } else if (iosLink) {
+          iosLink.href = '#ios-bientot';
+          iosLink.setAttribute('aria-disabled', 'true');
+        }
+
+        if (isAndroid && config.androidUrl) {
+          status.textContent = 'Android détecté. Redirection vers Google Play...';
+          window.setTimeout(function () {
+            window.location.href = config.androidUrl;
+          }, 600);
+          return;
+        }
+
+        if (isIOS && config.iosUrl) {
+          status.textContent = 'iPhone ou iPad détecté. Redirection vers l’App Store...';
+          window.setTimeout(function () {
+            window.location.href = config.iosUrl;
+          }, 600);
+          return;
+        }
+
+        if (isIOS && !config.iosUrl) {
+          status.textContent = 'Version iPhone en cours de publication. Le lien App Store sera ajouté ici.';
+          return;
+        }
+
+        status.textContent = 'Choisis ta plateforme pour télécharger Pintone.';
+      })();
+    </script>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" data-legal-link="home" href="./index.html">
+          <span class="brand-mark">Pi</span>
+          <span>Pintone</span>
+        </a>
+        <nav class="nav" aria-label="Navigation téléchargement">
+          <a data-legal-link="support" href="./support.html">Support</a>
+          <a data-legal-link="privacy" href="./privacy.html">Confidentialité</a>
+          <a data-legal-link="terms" href="./terms.html">Conditions</a>
+        </nav>
+      </header>
+
+      <section class="card hero">
+        <p class="eyebrow">Téléchargement</p>
+        <h1>Installe Pintone</h1>
+        <p id="download-status" class="muted">Detection de ton appareil...</p>
+
+        <div class="actions">
+          <a id="android-link" class="button button-primary" href="https://play.google.com/store/apps/details?id=com.jules.piconmap">
+            Ouvrir sur Google Play
+          </a>
+          <a id="ios-link" class="button button-secondary" href="#ios-bientot">
+            Ouvrir sur l’App Store
+          </a>
+        </div>
+
+        <div class="grid">
+          <article class="panel">
+            <h2>Android</h2>
+            <p>Si tu es sur Android, tu seras redirigé automatiquement vers Google Play.</p>
+          </article>
+
+          <article class="panel" id="ios-bientot">
+            <h2>iPhone et iPad</h2>
+            <p>Ajoute simplement l'URL App Store dès que la fiche Apple est publiée ou accessible.</p>
+          </article>
+
+          <article class="panel">
+            <h2>Besoin d'aide ?</h2>
+            <p>Si le téléchargement ne fonctionne pas, contacte le support Pintone.</p>
+            <p><a data-legal-link="support" href="./support.html">Voir la page support</a></p>
+          </article>
+        </div>
+
+        <p class="footer">
+          Astuce : pour un QR code sur un tee-shirt, conserve cette URL unique plutôt que les liens stores directs.
+        </p>
+      </section>
+    </main>
+  </body>
+</html>
